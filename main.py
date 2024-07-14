@@ -2,18 +2,31 @@
 
 prompt = "Do you want to add, show, edit, remove, or exit? "
 
-# Todo list
-todos = []
-
 while True:
     action = input(prompt)
     action = action.strip()
 
     match action:
         case 'add':
-            todo = input("add a new item: ")
+            todo = input("add a new item: ") + "\n"
+            
+            # Read data from todo text file
+            file = open("todos.txt", "r")
+            todos = file.readlines()
+            file.close()
+
             todos.append(todo)
+            
+            # write data to todo text file
+            file = open('todos.txt', 'w')
+            file.writelines(todos)
+            file.close()
         case 'show':
+            # Read data from todo text file
+            file = open("todos.txt", "r")
+            todos = file.readlines()
+            file.close()
+
             for index, item in enumerate(todos):
                 row = f"{index + 1}-{item}"
                 print(row)
