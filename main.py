@@ -1,6 +1,11 @@
 # Todo app using Python
 # Adds todos to a todos.txt file
 
+def get_todos():
+    with open("todos.txt", "r") as file:
+        todos = file.readlines()
+    return todos
+
 prompt = "Do you want to add, show, edit, remove, or exit? "
 
 while True:
@@ -11,8 +16,7 @@ while True:
         todo = action[4:]
         
         # Read data from todo text file
-        with open("todos.txt", "r") as file:
-            todos = file.readlines()
+        todos = get_todos()
 
         todos.append(todo + '\n')
         
@@ -22,41 +26,47 @@ while True:
             
     elif action.startswith('show'):
         # Read data from todo text file
-        with open("todos.txt", "r") as file:
-            todos = file.readlines()
+        todos = get_todos()
 
         for index, item in enumerate(todos):
             item = item.strip('\n')
             row = f"{index + 1}-{item}"
             print(row)
     elif action.startswith('edit'):
-        # Read data from todo text file
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
+        try:
+            # Read data from todo text file
+            todos = get_todos()
 
-        number = int(action[5:])
-        number = number - 1
-        
-        new_todo = input("Enter a new todo: ")
-        todos[number] = new_todo + '\n'
+            number = int(action[5:])
+            number = number - 1
+            
+            new_todo = input("Enter a new todo: ")
+            todos[number] = new_todo + '\n'
 
-        # write data to todo text file
-        with open('todos.txt', 'w') as file:
-            file.writelines(todos)
+            # write data to todo text file
+            with open('todos.txt', 'w') as file:
+                file.writelines(todos)
+        except ValueError:
+            print("Your command is invalid.")
+            continue
     elif action.startswith('remove'):
-        # Read data from todo text file
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
-        number = int(action[7:])
-        index = number - 1
-        todo_to_remove = todos[index].strip('\n')
-        todos.pop(index)
+        try:
 
-        # write data to todo text file
-        with open('todos.txt', 'w') as file:
-            file.writelines(todos)
-        message = f"Todo {todo_to_remove} was removed from the list."
-        print(message)
+            # Read data from todo text file
+            todos = get_todos()
+            number = int(action[7:])
+            index = number - 1
+            todo_to_remove = todos[index].strip('\n')
+            todos.pop(index)
+
+            # write data to todo text file
+            with open('todos.txt', 'w') as file:
+                file.writelines(todos)
+            message = f"Todo {todo_to_remove} was removed from the list."
+            print(message)
+        except IndexError:
+            print("No item with that number.")
+            continue
 
     elif action.startswith('exit'):
         break
