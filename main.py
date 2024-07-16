@@ -7,20 +7,20 @@ while True:
     action = input(prompt)
     action = action.strip()
 
-    if 'add' in action:
+    if action.startswith("add"):
         todo = action[4:]
         
         # Read data from todo text file
         with open("todos.txt", "r") as file:
             todos = file.readlines()
 
-        todos.append(todo)
+        todos.append(todo + '\n')
         
         # write data to todo text file
         with open('todos.txt', 'w') as file:
             file.writelines(todos)
             
-    elif 'show' in action:
+    elif action.startswith('show'):
         # Read data from todo text file
         with open("todos.txt", "r") as file:
             todos = file.readlines()
@@ -29,7 +29,7 @@ while True:
             item = item.strip('\n')
             row = f"{index + 1}-{item}"
             print(row)
-    elif 'edit' in action:
+    elif action.startswith('edit'):
         # Read data from todo text file
         with open('todos.txt', 'r') as file:
             todos = file.readlines()
@@ -43,7 +43,7 @@ while True:
         # write data to todo text file
         with open('todos.txt', 'w') as file:
             file.writelines(todos)
-    elif 'remove' in action:
+    elif action.startswith('remove'):
         # Read data from todo text file
         with open('todos.txt', 'r') as file:
             todos = file.readlines()
@@ -58,7 +58,7 @@ while True:
         message = f"Todo {todo_to_remove} was removed from the list."
         print(message)
 
-    elif 'exit' in action:
+    elif action.startswith('exit'):
         break
     else:
         print("Enter a valid command")
