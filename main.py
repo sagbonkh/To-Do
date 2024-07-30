@@ -1,10 +1,16 @@
 # Todo app using Python
 # Adds todos to a todos.txt file
 
-def get_todos():
-    with open("todos.txt", "r") as file:
+def get_todos(filepath="todos.txt"):
+    """ Read a text file and return the list of to-do items."""
+    with open(filepath, "r") as file:
         todos = file.readlines()
     return todos
+
+def write_todos(todo_arg, filepath="todos.txt"):
+    """ Write a to-do item to a text file"""
+    with open(filepath, 'w') as file:
+        file.writelines(todo_arg)
 
 prompt = "Do you want to add, show, edit, remove, or exit? "
 
@@ -21,8 +27,7 @@ while True:
         todos.append(todo + '\n')
         
         # write data to todo text file
-        with open('todos.txt', 'w') as file:
-            file.writelines(todos)
+        write_todos(todos, 'todos.txt')
             
     elif action.startswith('show'):
         # Read data from todo text file
@@ -44,8 +49,8 @@ while True:
             todos[number] = new_todo + '\n'
 
             # write data to todo text file
-            with open('todos.txt', 'w') as file:
-                file.writelines(todos)
+            write_todos(todos, 'todos.txt')
+
         except ValueError:
             print("Your command is invalid.")
             continue
@@ -60,8 +65,7 @@ while True:
             todos.pop(index)
 
             # write data to todo text file
-            with open('todos.txt', 'w') as file:
-                file.writelines(todos)
+            write_todos(todos,'todos.txt')
             message = f"Todo {todo_to_remove} was removed from the list."
             print(message)
         except IndexError:
