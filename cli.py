@@ -1,7 +1,9 @@
 # Todo app using Python
 # Adds todos to a todos.txt file
 from modules.functions import get_todos, write_todos
+import time
 
+now = time.strftime("%b %d, %Y %H, ")
 prompt = "Do you want to add, show, edit, remove, or exit? "
 
 while True:
